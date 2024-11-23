@@ -30,11 +30,24 @@ app.Run(async (HttpContext context) =>
         context.Response.StatusCode = 200;
         await context.Response.WriteAsync("You are in About page!!!");
 
-    } else
+    } else if (path == "/Products")
+    {
+        if (context.Request.Query.ContainsKey("id") && context.Request.Query.ContainsKey("name"))
+        {
+            string id = context.Request.Query["id"];
+            string name = context.Request.Query["name"];
+            await context.Response.WriteAsync("You have selected the product with ID " + id + " and name " + name);
+            return;
+
+        }
+        context.Response.StatusCode = 200;
+        await context.Response.WriteAsync("You are in Products page!!!");
+    }
+    else
     {
         context.Response.StatusCode = 404;
         await context.Response.WriteAsync("The page you are looking for is not found!!!");
     }
 });
-
+// starting the server 
 app.Run();
